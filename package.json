@@ -1,9 +1,14 @@
 {
-  "name": "чат Воронков",
-  "version": "0.9.0",
-  "description": "Чат для семьи Воронков",
+  "name": "family-chat",
+  "version": "1.0.0",
+  "description": "Семейный чат",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
+  },
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
   }
 }
