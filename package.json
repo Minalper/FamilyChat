@@ -1,0 +1,9 @@
+{
+  "name": "чат Воронков",
+  "version": "0.9.0",
+  "description": "Чат для семьи Воронков",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
