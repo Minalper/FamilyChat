@@ -2,8 +2,9 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const PORT = process.env.PORT || 3000;
+const PORT = 3000;
 
+// Простой сервер
 const server = http.createServer((req, res) => {
     console.log('Запрос:', req.url);
     
@@ -26,8 +27,10 @@ const server = http.createServer((req, res) => {
     
     // API для сообщений
     if (req.url === '/api/messages' && req.method === 'GET') {
+        // Читаем сообщения
         fs.readFile(path.join(__dirname, 'messages.json'), (err, data) => {
             if (err) {
+                // Если файла нет - возвращаем пустой массив
                 res.end('[]');
                 return;
             }
@@ -44,11 +47,13 @@ const server = http.createServer((req, res) => {
             try {
                 const newMsg = JSON.parse(body);
                 
+                // Читаем старые сообщения
                 let messages = [];
                 try {
                     messages = JSON.parse(fs.readFileSync(path.join(__dirname, 'messages.json')));
                 } catch(e) {}
                 
+                // Добавляем новое
                 messages.push({
                     id: Date.now(),
                     name: newMsg.name || 'Аноним',
@@ -56,6 +61,7 @@ const server = http.createServer((req, res) => {
                     time: new Date().toLocaleString()
                 });
                 
+                // Сохраняем
                 fs.writeFileSync(path.join(__dirname, 'messages.json'), JSON.stringify(messages, null, 2));
                 
                 // Логируем
@@ -72,11 +78,14 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // Если ничего не нашли
     res.statusCode = 404;
     res.end('404 - Страница не найдена');
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n✅ Чат запущен на порту ${PORT}`);
-    console.log(`📱 Открой в браузере: http://localhost:${PORT}`);
+    console.log('\n✅ Чат запущен!');
+    console.log('📱 Открой в браузере: http://localhost:' + PORT);
+    console.log('🏠 В локальной сети: http://[ТВОЙ_IP]:' + PORT);
+    console.log('📝 Лог сохраняется в chat.log\n');
 });
